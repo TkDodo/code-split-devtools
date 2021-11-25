@@ -1,4 +1,6 @@
-import { QueryClient, QueryClientProvider } from 'react-query'
+import {
+  QueryClient, QueryClientProvider, useQuery, useIsFetching, useIsMutating, useMutation, useQueryClient
+} from 'react-query'
 import { Devtools } from './ReactQueryDevtools'
 
 import logo from './logo.svg';
@@ -25,9 +27,20 @@ function App() {
         </a>
       </header>
         <Devtools />
+        <Foo />
       </QueryClientProvider>
     </div>
   );
+}
+
+function Foo() {
+  const c = useQueryClient()
+  useQuery('foo', () => Promise.resolve(1))
+  useMutation(() => Promise.resolve(2))
+  useIsMutating()
+  useIsFetching()
+
+  return <button onClick={() => c.invalidateQueries()}>a</button>
 }
 
 export default App;
